@@ -13,15 +13,17 @@ import java.awt.event.*;
 class YourGameName extends Game implements KeyListener {
 	static int counter = 0;
 	private Ship ship;
+	private int direction = 180;
 
 	public YourGameName() {
 		super("Asteroid", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
-		Point[] shipShape = { new Point(0, 0), new Point(0, 10), new Point(5, 15), new Point(10, 10),
-				new Point(10, 0) };
-		
-		ship = new Ship(shipShape, new Point(300,400), 0);
+		this.addKeyListener(this);
+		Point[] shipShape = { new Point(0, 8), new Point(-6, 16), new Point(-12, 12), new Point(-8, 0),
+				new Point(0, -8), new Point(8, 0), new Point(12, 12), new Point(6, 16) };
+
+		ship = new Ship(shipShape, new Point(360, 300), direction);
 
 	}
 
@@ -33,9 +35,11 @@ class YourGameName extends Game implements KeyListener {
 		// counter is incremented and this message printed
 		// each time the canvas is repainted
 		counter++;
-		brush.setColor(Color.white);
+		brush.setColor(Color.red);
 		brush.drawString("Counter is " + counter, 10, 10);
-		
+//		keyPressed(this);
+
+		ship.move();
 		ship.Paint(brush);
 
 	}
@@ -47,14 +51,13 @@ class YourGameName extends Game implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		ship.keyPressed(e);
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		ship.keyReleased(e);
 	}
 
 	@Override
@@ -62,4 +65,5 @@ class YourGameName extends Game implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
+
 }
