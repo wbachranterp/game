@@ -19,20 +19,28 @@ class YourGameName extends Game implements KeyListener {
 	private Asteroid[] asteroidArray; 
 	private int direction = 180;
 	private int asteroidDirection; 
-	Random random; 
-
+	private Random random; 
+	private PowerUp powerUp; 
+	
 	public YourGameName() {
 		super("Asteroid", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener((java.awt.event.KeyListener) this);
+		random = new Random(); 
+		
 		Point[] shipShape = { new Point(0, 8), new Point(-6, 16), new Point(-12, 12), new Point(-8, 0),
 				new Point(0, -8), new Point(8, 0), new Point(12, 12), new Point(6, 16) };
 
 		Point[] asteroidShape = {
 				new Point(0, 0), new Point(0, -8), new Point(8, -8), new Point(8, 0)
 		};
-		random = new Random(); 
+		
+		Point[] powerUpShape = {
+				new Point(0, 0), new Point(0, -8), new Point(8, -8), new Point(8, 0)
+		};
+		
+		powerUp = new PowerUp(powerUpShape, new Point(random.nextInt(800), random.nextInt(600)), 0); 
 		
 		asteroidDirection = random.nextInt(360); 
 		Asteroid asteroid1 = new Asteroid(asteroidShape, new Point(120, 330), asteroidDirection);
@@ -71,7 +79,11 @@ class YourGameName extends Game implements KeyListener {
 		brush.drawString("Counter is " + counter, 10, 10);
 		//keyPressed(this);
 
-		
+		powerUp.Paint(brush);
+		if(ship.collides(powerUp)) {
+			ship.setStepSize(); 
+			powerUp.setRandPosition(); 
+		}
 		ship.move();
 		ship.Paint(brush);
 
