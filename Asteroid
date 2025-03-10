@@ -1,1 +1,66 @@
+package game;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Random;
+
+public class Asteroid extends Polygon {
+	
+	private Point[] asteroidPoints; 
+	private final int stepSize = 2; 
+	private Random random; 
+	
+	public Asteroid(Point[] inShape, Point inPosition, double inRotation) {
+		super(inShape, inPosition, inRotation); 
+		this.asteroidPoints = inShape; 
+		random = new Random(); 
+	}
+	
+	public void Paint(Graphics brush) {
+		Point[] getPoints = this.getPoints();
+		
+		
+		int[] xArray = new int[getPoints.length];
+		int[] yArray = new int[getPoints.length];
+		
+		for(int i = 0; i < getPoints.length; i++) {
+			xArray[i] = (int)getPoints[i].getX();
+			yArray[i] = (int)getPoints[i].getY();
+		}
+		brush.setColor(Color.GRAY);
+		brush.drawPolygon(xArray, yArray, getPoints.length);
+		brush.fillPolygon(xArray, yArray, getPoints.length);
+	}
+	
+	public void move() {
+		if(position.getX() <= 0 || position.getX() >= 800 || position.getY() <= 0 || position.getY() >= 600) {
+			setStartPoint(); 
+		}
+		else {
+			position.setX(position.getX() - stepSize * Math.cos(Math.toRadians(rotation)));
+			position.setY(position.getY() - stepSize * Math.sin(Math.toRadians(rotation)));
+		}
+	}
+	
+	public void setStartPoint() {
+		int counter = random.nextInt(4); 
+		
+		if(counter == 0) {
+			position.setX(20);
+			position.setY(random.nextInt(580));
+		}
+		else if(counter == 1) {
+			position.setX(780);
+			position.setY(random.nextInt(580));
+		}
+		else if(counter == 2) {
+			position.setX(random.nextInt(780)); 
+			position.setY(20); 
+		}
+		else {
+			position.setX(random.nextInt(780));
+			position.setY(580);
+		}
+	}
+}
 
