@@ -109,4 +109,9 @@ public class Ship extends Polygon implements KeyListener {
 		
 	}
 
+	//Addition from Colin
+	public void setPosition(int x, int y) {
+		position.setX(x);
+		position.setY(y);
+	}
 }
