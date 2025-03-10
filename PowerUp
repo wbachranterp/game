@@ -1,0 +1,51 @@
+package game;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class PowerUp extends Polygon {
+
+	private Timer timer; 
+	private Random random; 
+	
+	public PowerUp(Point[] inShape, Point inPosition, double inRotation) {
+		super(inShape, inPosition, inRotation); 
+		timer = new Timer(); 
+		random = new Random(); 
+	}
+	
+	public void Paint(Graphics brush) {
+		Point[] getPoints = this.getPoints();
+		
+		
+		int[] xArray = new int[getPoints.length];
+		int[] yArray = new int[getPoints.length];
+		
+		for(int i = 0; i < getPoints.length; i++) {
+			xArray[i] = (int)getPoints[i].getX();
+			yArray[i] = (int)getPoints[i].getY();
+		}
+		brush.setColor(Color.GREEN);
+		brush.drawPolygon(xArray, yArray, getPoints.length);
+		brush.fillPolygon(xArray, yArray, getPoints.length);
+	}
+	
+	public void appear() {
+		timer.schedule(new TimerTask() {
+			
+			public void run() {
+				setRandPosition(); 
+			}
+			
+		}, 1000); 
+	}
+	
+	
+	public void setRandPosition() {
+		position.setX(random.nextInt(800));
+		position.setY(random.nextInt(600));
+	}
+}
