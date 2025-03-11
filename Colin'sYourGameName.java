@@ -13,35 +13,44 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
+
 class YourGameName extends Game implements KeyListener {
 	static int counter = 3;
 	private Ship ship;
 	private Asteroid[] asteroidArray; 
-	private int direction = 180;
+	private int direction = 0;
 	private int asteroidDirection; 
 	private Random random; 
-	private PowerUp powerUp; 
-	
+	private PointElement pointElement; 
+	private int score = 0; 
+	private Ship.Boost booster; 
+
 	public YourGameName() {
+		
+		//Creates gameBoard
 		super("Asteroid", 800, 600);
 		this.setFocusable(true);
 		this.requestFocus();
 		this.addKeyListener((java.awt.event.KeyListener) this);
 		random = new Random(); 
 		
-		Point[] shipShape = { new Point(0, 8), new Point(-6, 16), new Point(-12, 12), new Point(-8, 0),
-				new Point(0, -8), new Point(8, 0), new Point(12, 12), new Point(6, 16) };
-
+		//Initializes Ship
+		Point[] shipShape = { new Point(-10, 0), new Point(15, 15), new Point(3, 0), new Point(15, -15), new Point(-10, 0)
+		};
+		ship = new Ship(shipShape, new Point(360, 300), direction);
+		
+		//Initializes eight asteroids and stores them in an array
 		Point[] asteroidShape = {
-				new Point(0, 0), new Point(0, -8), new Point(8, -8), new Point(8, 0)
+				new Point(0, 0),      
+			    new Point(-20, -10),  
+			    new Point(-30, -20),  
+			    new Point(-10, -30),  
+			    new Point(0, -20),    
+			    new Point(20, -30),   
+			    new Point(30, -20),   
+			    new Point(10, -10),   
+			    new Point(0, 0)  
 		};
-		
-		Point[] powerUpShape = {
-				new Point(0, 0), new Point(0, -8), new Point(8, -8), new Point(8, 0)
-		};
-		
-		powerUp = new PowerUp(powerUpShape, new Point(random.nextInt(800), random.nextInt(600)), 0); 
-		
 		asteroidDirection = random.nextInt(360); 
 		Asteroid asteroid1 = new Asteroid(asteroidShape, new Point(120, 330), asteroidDirection);
 		asteroidDirection = random.nextInt(360);  
@@ -62,9 +71,17 @@ class YourGameName extends Game implements KeyListener {
 		asteroidArray = new Asteroid[] {asteroid1, asteroid2, asteroid3, 
 				asteroid4, asteroid5, asteroid6, asteroid7, asteroid8}; 
 		
+		//Initializes green point objects
+		Point[] pointElementShape = {
+				new Point(0, 0), new Point(0, -8), new Point(8, -8), new Point(8, 0)
+		};
+		pointElement = new PointElement(pointElementShape, new Point(random.nextInt(600) + 100, random.nextInt(400) + 100), 0); 
 		
-		ship = new Ship(shipShape, new Point(360, 300), direction);
-
+		//Initializes Booster objects
+		Point[] boosterShape = {
+				new Point(-5, 0), new Point(5, 0), new Point(0, -10), new Point(-5, 0)
+		};
+		booster = new Ship(shipShape, new Point(360, 300), direction).new Boost(boosterShape, new Point(-5,5), direction, ship); 
 	}
 
 	public void paint(Graphics brush) {
@@ -76,14 +93,27 @@ class YourGameName extends Game implements KeyListener {
 		// counter is incremented and this message printed
 		// each time the canvas is repainted
 		brush.setColor(Color.red);
-		brush.drawString("Counter is " + counter, 10, 10);
+		brush.drawString("Lives: " + counter + " Score: " + score, 10, 10);
 		//keyPressed(this);
 
-		powerUp.Paint(brush);
-		if(ship.collides(powerUp)) {
-			ship.setStepSize(); 
-			powerUp.setRandPosition(); 
+		
+		booster.Paint(brush);
+		booster.boost(); 
+		
+		pointElement.Paint(brush);
+		
+		if(ship.collides(pointElement)) {
+			pointElement.setRandPosition(); 
+			score+= 5; 
 		}
+		
+		if(booster.returnBoost()) {
+			ship.setStepSize(5); 
+		}
+		else {
+			ship.setStepSize(3);
+		}
+		
 		ship.move();
 		ship.Paint(brush);
 
@@ -104,7 +134,7 @@ class YourGameName extends Game implements KeyListener {
 
 	public void checkEndGame() {
 		if(counter == 0) {
-			JOptionPane.showMessageDialog(this, "Game Over! You have no lives left.", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Game Over! You have no lives left. \n Score: " + score, "Game Over", JOptionPane.INFORMATION_MESSAGE);
 	        System.exit(0); 
 		}
 	}
@@ -112,12 +142,13 @@ class YourGameName extends Game implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		ship.keyPressed(e);
-
+		booster.keyPressed(e); 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		ship.keyReleased(e);
+		booster.keyReleased(e);
 	}
 
 	@Override
