@@ -5,10 +5,14 @@ import java.awt.Graphics;
 import java.util.Random;
 
 /**
-* The Asteroid class represents the asteroid objects that will appear on the screen and act as obstacles for this ship
+* Class: The Asteroid class represents the asteroid objects that will appear on the screen and act as obstacles for this ship
 * Includes a Paint method that handles how the asteroid appears on the screen, a move method that controls its
 * movement, and a setStartPoint method that assigns random starting positions to the asteroids on the borders
 * of the game canvas.
+*
+* Usage: The Asteroid class extends the polygon class and its instantation is very similar.
+* Asteroids are instantiated in the FinalAsteroidShooter class with its constructor and then stored
+* in an array of asteroids to use for the game.
 /*
 
 public class Asteroid extends Polygon implements GameElements {
