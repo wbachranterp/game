@@ -15,6 +15,8 @@ import java.util.ArrayList;
  * are inner classes of it.
  * Contains keyboard responsiveness for movement with KeyPressed and KeyReleased methods.
  * Contains a constrcutor, paint method, move method, and position setting method.
+ * Calls a FireBullet method, which is responsible for creation of the ships bullets and
+ * originaiting its inner class ShipGun's objects from its origin.
  * Usage: Constrcuted in FinalAsteroidShooter and then painted.
  */
 public class Ship extends Polygon implements KeyListener, GameElements {
