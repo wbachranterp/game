@@ -95,8 +95,13 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 	}
 	
 	/**
-	 * Moves the Ship around the canvas based on a stepSize increment multiplied by sin or cos.
-	 * Handles out of bounds where asteroids reset to starting positions if they exceed the canvas.
+	 * Moves the Ship around the canvas based on a stepSize increment multiplied by sin or cos while the forward key is held
+	 * Handles out of bounds by setting the position of the ship to just before the border if it tries to cross
+	 * If the left boolean is true, rotate is called so the ship rotates left
+  	 * If the right boolean is true, rotate is called so the ship rotates right
+    	 * If the shoot boolean is true, an ArrayList of ShipGun objects is painted moving out of the tip of the ship
+      	 * If the ShipGun objects go out of bounds they are removed from the ArrayList and the ArrayList is deincremented to
+	 * increase performance.
 	 */
 	public void move() {
 		if(forward) { 
@@ -146,16 +151,27 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 		}
 	}
 	
-	
+	/**
+	 *Returns the array of shipPoints that defines the polygon that represents the Ship
+	 */
 	public Point[] getPArray() {
 		return shipPoints;
 	}
-
+	
+	/**
+	 * Sets the position of a polygon to a new set of coordinates, used for 
+	 * preventing the ship from going out of bounds, resetting the ship when it gets hit, resetting asteroids
+	 * when they get hit.
+	 */
+	
 	public void setPosition(int x, int y) {
 		position.setX(x);
 		position.setY(y);
 	}
-	
+	/**
+	 * KeyPressed method implemented from KeyListener, checks for keyboad key pressed
+  	 * When the key is pressed it sets the instance variable boolean to true so the correct movement/shooting can occur
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
@@ -177,7 +193,11 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 			shoot = true;
 		}
 	}
-
+	/**
+	 * KeyReleased method implemented from KeyListener, checks for keyboad key released
+  	 * When the key is released it sets the accordinginstance variable boolean to false 
+    	 * so the correct movement/shooting can stop.
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
