@@ -86,7 +86,7 @@ public class Asteroid extends Polygon implements GameElements {
 
 	/**
 	 * Sets the start point to a random position on the bounds of the canvas.
-	 * Iterates through 4 different starting x locations with random y positions in each.
+	 * Randomly picks from 4 different starting x locations with random y positions for each set x position.
 	 */
 
 	public void setStartPoint() {
