@@ -5,19 +5,61 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
+/**
+ * Class: Ship
+ *
+ * Description: 
+ *
+ * Usage: 
+ */
 public class Ship extends Polygon implements KeyListener, GameElements {
+	/**
+	 * An array of Points that defines ships shape
+	*/
 	private Point[] shipPoints;
+	/**
+	 * An int that defines the ships intial speed
+	*/
 	private int stepSize = 3;
+	/**
+	 * A boolean to use with keyboard responsivness to the up arrow key
+	*/
 	private boolean forward;
+	/**
+	 * A boolean to use with keyboard responsivness to the right arrow key
+	*/
 	private boolean right;
+	/**
+	 * A boolean to use with keyboard responsivness to the left arrow key
+	*/
 	private boolean left;
+	/**
+	 * A boolean to use with keyboard responsivness to the down arrow key
+	*/
 	private boolean down;
+	/**
+	 * An int to store the ships intial rotation
+	*/
 	private int rotate;
+	/**
+	 * A boolean to use with keyboard responsivness to the spacebar key
+	*/
 	private boolean shoot;
+	
 	private ShipGun shipGun;
+	/**
+	 * An ArrayList of ShipGun(which are the bullets it shoots) to store
+  	 * so the ship can shoot a large amount of bullets
+	*/
 	private ArrayList<ShipGun> bullets = new ArrayList<>();
 	
+	/**
+	 *Constructs a Ship object with a shape, position, and rotation
+	 *
+	 *@param inShape The array of points representing the shape of the Ship
+	 *@param inPosition The starting position of the Ship object
+	 *@param inRotation The rotation of the Ship object
+	 */
 	
 	public Ship(Point[] inShape, Point inPosition, double inRotation) {
 		super(inShape, inPosition, inRotation);
