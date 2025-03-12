@@ -101,7 +101,11 @@ class Polygon {
     double area = findArea();
     return new Point(Math.abs(sum.x/(6*area)),Math.abs(sum.y/(6*area)));
   }
-  
+    /**
+     *Collides takes in a different polygon(E.g an asteroid) and checks if it collides
+     *with the polygon the method is being called upon(E.g a ship), it then returns true if collison does occur.
+     *Which is then used for other methods like resetting the ships position and making it lose a life.
+  */
   public boolean collides(Polygon other) {
 	  Point[] otherPoints = other.getPoints(); 
 	  
