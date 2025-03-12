@@ -8,9 +8,14 @@ import java.util.ArrayList;
 /**
  * Class: Ship
  *
- * Description: 
- *
- * Usage: 
+ * Description: Main ship class that contains two inner classes: Boost and ShipGun.
+ * Represents the player's ship in the game
+ * The ship's position, movement, and visual elements are managed by this class
+ * The ship shooting and boosting are also controlled by this class as Boost and ShipGun
+ * are inner classes of it.
+ * Contains keyboard responsiveness for movement
+ * Contains a constrcutor, paint method, move method, and position setting method.
+ * Usage: Constrcuted in FinalAsteroidShooter and then painted.
  */
 public class Ship extends Polygon implements KeyListener, GameElements {
 	/**
@@ -195,7 +200,7 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 	}
 	/**
 	 * KeyReleased method implemented from KeyListener, checks for keyboad key released
-  	 * When the key is released it sets the accordinginstance variable boolean to false 
+  	 * When the key is released it sets the according instance variable boolean to false 
     	 * so the correct movement/shooting can stop.
 	 */
 	@Override
@@ -349,25 +354,46 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 	 * Description: Represents the ship's temporay speed boost abillity. It benefits from being an innerclass because
   	 * it depends on the ships current location as well as it's movement. It has access to the Ship's stepsize
     	 * directly because it is an innerclass, so it can easily speed up the ship while the boost key is held
-      	 * and then slow it down back to normal speed once the key is released. The ship has a constructor extended from
-	 * polygon, a paint method to paint the booster on the canvas, keyboard responsiveness methods, and a boost method
+      	 * and then slow it down back to normal speed once the key is released. The boost also produces 
+	 * a visual effect coming out of the ship. The ship has a constructor extended from
+	 * polygon with a ship as an additional parameter so it knows which ship to stem from, 
+  	 * a paint method to paint the booster on the canvas, keyboard responsiveness methods, and a boost method
   	 * that actually boosts the ship.
   	 *
-	 * Usage: ShipGun's are instantiated in the fireBullet() method of the Ship class where they
-  	 * are then stored for shooting from the ship.
+	 * Usage: Boost is instantiated in FinalAsteroidShooter as a inner class of Ship.
 	 */
 	public class Boost extends Polygon implements KeyListener {
-		
+		/**
+		 * Array of points that represents the shape of the booster
+		 */
 		private Point[] boostPoints; 
+		/**
+	 	*Boolean that stores whether the ship should be boosting or not
+		*/
 		private boolean boost; 
+		/**
+	 	*Ship variable to store the current ship that is being checked
+		*/
 		private Ship ship; 
-		
+		/**
+		 *Constructs a Boost object with a shape, position, rotation, and current ship
+		 *
+		 *@param inShape The array of points representing the shape of the asteroid
+	 	 *@param inPosition The starting position of the asteroid object
+		 *@param inRotation The rotation of the asteroid object
+   		 *@param ship The current ship being boosted
+	 	 */
 		public Boost(Point[] inShape, Point inPosition, double inRotation, Ship ship) {
 			super(inShape, inPosition, inRotation);
 			this.boostPoints = inShape;
 			this.ship = ship; 
 		}
-		
+		/**
+	 	* Paints the boost objects onto the canvas of the game,
+	 	* the boost will be orange
+
+	 	*@param brush The Graphics object that paints the asteroid
+	 	*/
 		public void Paint(Graphics brush) {
 			Point[] getPoints = this.getPoints();
 			
@@ -383,7 +409,10 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 			brush.drawPolygon(xArray, yArray, getPoints.length);
 			brush.fillPolygon(xArray, yArray, getPoints.length);
 		}
-		
+		/**
+	 	* KeyPressed method implemented from KeyListener, checs if z is pressed so the 
+   		* boost can begin
+	 	*/
 		@Override
 		public void keyPressed(KeyEvent e) {
 			int keyCode = e.getKeyCode();
@@ -392,7 +421,10 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 				boost = true;
 			}
 		}
-
+		/**
+	 	* KeyReleased method implemented from KeyListener, checs if z is released so the 
+   		* boost can conclude.
+	 	*/
 		@Override
 		public void keyReleased(KeyEvent e) {
 			int keyCode = e.getKeyCode();
@@ -407,7 +439,9 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 			// TODO Auto-generated method stub
 			
 		}
-		
+		/**
+	 	* If the boost variable is true. The boost visual effect is set to be put on the ship
+	 	*/
 		public void boost() {
 			if(boost) {
 				position.setX(ship.getXPosition());
@@ -418,7 +452,9 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 				position.setY(-15);
 			}
 		}
-		
+		/**
+	 	* returns true if the ship is boosting and false if it is not.
+	 	*/
 		public boolean returnBoost() {
 			return boost; 
 		}
