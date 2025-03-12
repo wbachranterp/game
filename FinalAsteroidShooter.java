@@ -1,12 +1,6 @@
 package game;
 
-/*
-CLASS: YourGameNameoids
-DESCRIPTION: Extending Game, YourGameName is all in the paint method.
-NOTE: This class is the metaphorical "main method" of your program,
-      it is your control center.
 
-*/
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -14,22 +8,52 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-
-
+/**
+ * CLASS: AsteroidShooter
+ * DESCRIPTION: Extending Game, AsteroidShooter is all in the paint method. AsteroidShooter
+*/
 
 class AsteroidShooter extends Game implements KeyListener {
+	/**
+	 *A counter that counts the lives of the ship
+	*/
 	static int counter = 3;
 	private Ship ship;
+	/**
+	 *An array that stores all the asteroid objects useds in the game
+	*/
 	private Asteroid[] asteroidArray; 
+	/**
+	 *Holds inital direction of the ship for easy access/editing
+	*/
 	private int direction = 0;
+	/**
+	 *Holds intial direwction of the asteroid
+	*/
 	private int asteroidDirection; 
+	/**
+	 *Random object used for all random functions in the class
+	*/
 	private Random random; 
 	private PointElement pointElement; 
+	/**
+	 *An ArrayList of ShipGun classes that stores all the bullets used
+  	 *in the game. ShipGun is an inner class of Ship.
+	*/
 	ArrayList<Ship.ShipGun> bullets; 
+	/**
+	 *Initial score is set to 0
+	*/
 	private int score = 0; 
+	/**
+	 *Decleration for a booster inner class of Ship.
+	*/
 	private Ship.Boost booster; 
 
-
+	/**
+	 *Main construction method of the class, handles construction of all the polygon subclasses(Asteroid, Ship, PointElement)
+  	 *Creates the gameBoard for the game with the super construtor from game and adds the keylistener for keybaord reponsiveness
+	*/
 	public AsteroidShooter() {
 		
 		//Creates gameBoard
@@ -99,7 +123,14 @@ class AsteroidShooter extends Game implements KeyListener {
 		//Initializes Bullets
 		bullets = ship.getBullets();
 	}
+	/**
+	 * Paints the ship object ands its movement, the asteroids from the asteroid array, the booster objct,
+  	 * and the paint element object constructed in the AsteroidShooter method.
+    	 * Calls the collides method to check for objects colliding into eachother on the board
+      	 * and updating the objects based on their respective function
 
+	 *@param brush The Graphics object that paints the asteroid
+	 */
 	public void paint(Graphics brush) {
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, width, height);
@@ -164,6 +195,10 @@ class AsteroidShooter extends Game implements KeyListener {
 		AsteroidShooter a = new AsteroidShooter();
 		a.repaint();
 	}
+	/**
+	 * Checks if the counter int is at 0, if the counter is at 0, it exits the game and displays a game over screen
+  	 * if the counter is not at 0 the game continues.
+	 */
 
 	public void checkEndGame() {
 		if(counter == 0) {
@@ -173,13 +208,19 @@ class AsteroidShooter extends Game implements KeyListener {
 	        System.exit(0); 
 		}
 	}
-	
+	/**
+	 * KeyPressed method implemented from KeyListener, checks for keyboad key pressed
+  	 * which is used in other methods.
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		ship.keyPressed(e);
 		booster.keyPressed(e); 
 	}
-
+	/**
+	 * KeyReleased method implemented from KeyListener, checks for keyboad key released
+  	 * which is used in other methods.
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		ship.keyReleased(e);
