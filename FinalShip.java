@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * The ship's position, movement, and visual elements are managed by this class
  * The ship shooting and boosting are also controlled by this class as Boost and ShipGun
  * are inner classes of it.
- * Contains keyboard responsiveness for movement
+ * Contains keyboard responsiveness for movement with KeyPressed and KeyReleased methods.
  * Contains a constrcutor, paint method, move method, and position setting method.
  * Usage: Constrcuted in FinalAsteroidShooter and then painted.
  */
