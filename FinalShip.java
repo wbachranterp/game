@@ -65,7 +65,12 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 		super(inShape, inPosition, inRotation);
 		this.shipPoints = inShape;
 	}
-	
+	/**
+	 * Paints the Ship objects onto the canvas of the game,
+	 * the Ship will be colored red.
+
+	 *@param brush The Graphics object that paints the asteroid
+	 */
 	public void Paint(Graphics brush) {
 		
 		Point[] getPoints = this.getPoints();
@@ -89,7 +94,10 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 			bullet.Paint(brush); }
 	}
 	
-	
+	/**
+	 * Moves the Ship around the canvas based on a stepSize increment multiplied by sin or cos.
+	 * Handles out of bounds where asteroids reset to starting positions if they exceed the canvas.
+	 */
 	public void move() {
 		if(forward) { 
 			if(position.getX() >= 800) {
