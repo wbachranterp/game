@@ -56,7 +56,8 @@ class AsteroidShooter extends Game implements KeyListener {
 
 	/**
 	 *Main construction method of the class, handles construction of all the polygon subclasses(Asteroid, Ship, PointElement)
-  	 *Creates the gameBoard for the game with the super construtor from game and adds the keylistener for keybaord reponsiveness
+  	 *Creates the gameBoard for the game with the super construtor from game.
+    	 *Adds the keylistener for keybaord reponsiveness
 	*/
 	public AsteroidShooter() {
 		
