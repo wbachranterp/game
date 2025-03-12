@@ -9,12 +9,15 @@ NOTE: This class is the metaphorical "main method" of your program,
 */
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JOptionPane;
 
 
-class YourGameName extends Game implements KeyListener {
+
+
+class AsteroidShooter extends Game implements KeyListener {
 	static int counter = 3;
 	private Ship ship;
 	private Asteroid[] asteroidArray; 
@@ -22,10 +25,12 @@ class YourGameName extends Game implements KeyListener {
 	private int asteroidDirection; 
 	private Random random; 
 	private PointElement pointElement; 
+	ArrayList<Ship.ShipGun> bullets; 
 	private int score = 0; 
 	private Ship.Boost booster; 
 
-	public YourGameName() {
+
+	public AsteroidShooter() {
 		
 		//Creates gameBoard
 		super("Asteroid", 800, 600);
@@ -35,57 +40,67 @@ class YourGameName extends Game implements KeyListener {
 		random = new Random(); 
 		
 		//Initializes Ship
-		Point[] shipShape = { new Point(-10, 0), new Point(15, 15), new Point(3, 0), new Point(15, -15), new Point(-10, 0)
-		};
+		Point[] shipShape = { new Point(0, 0), new Point(8, 6), 
+				new Point(4, 12), new Point(-8, 8), new Point(-16, 0),
+				new Point(-8, -8), new Point(4, -12), new Point(8, -6) };
 		ship = new Ship(shipShape, new Point(360, 300), direction);
 		
 		//Initializes eight asteroids and stores them in an array
-		Point[] asteroidShape = {
-				new Point(0, 0),      
-			    new Point(-20, -10),  
-			    new Point(-30, -20),  
-			    new Point(-10, -30),  
-			    new Point(0, -20),    
-			    new Point(20, -30),   
-			    new Point(30, -20),   
-			    new Point(10, -10),   
+		Point[] asteroidShape = { new Point(0, 0), new Point(-20, -10),
+				new Point(-30, -20), new Point(-10, -30), new Point(0, -20),    
+			    new Point(20, -30), new Point(30, -20), new Point(10, -10),   
 			    new Point(0, 0)  
 		};
 		asteroidDirection = random.nextInt(360); 
-		Asteroid asteroid1 = new Asteroid(asteroidShape, new Point(120, 330), asteroidDirection);
+		Asteroid asteroid1 = new Asteroid(asteroidShape, new Point(120, 330), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360);  
-		Asteroid asteroid2 = new Asteroid(asteroidShape, new Point(0, 100), asteroidDirection);
+		Asteroid asteroid2 = new Asteroid(asteroidShape, new Point(0, 100), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360); 
-		Asteroid asteroid3 = new Asteroid(asteroidShape, new Point(200, 170), asteroidDirection);
+		Asteroid asteroid3 = new Asteroid(asteroidShape, new Point(200, 170), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360);
-		Asteroid asteroid4 = new Asteroid(asteroidShape, new Point(80, 150), asteroidDirection);
+		Asteroid asteroid4 = new Asteroid(asteroidShape, new Point(80, 150), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360); 
-		Asteroid asteroid5 = new Asteroid(asteroidShape, new Point(50, 75), asteroidDirection);
+		Asteroid asteroid5 = new Asteroid(asteroidShape, new Point(50, 75), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360); 
-		Asteroid asteroid6 = new Asteroid(asteroidShape, new Point(25, 50), asteroidDirection);
+		Asteroid asteroid6 = new Asteroid(asteroidShape, new Point(25, 50), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360); 
-		Asteroid asteroid7 = new Asteroid(asteroidShape, new Point(90, 550), asteroidDirection);
+		Asteroid asteroid7 = new Asteroid(asteroidShape, new Point(90, 550), 
+				asteroidDirection);
 		asteroidDirection = random.nextInt(360); 
-		Asteroid asteroid8 = new Asteroid(asteroidShape, new Point(400, 380), asteroidDirection);
+		Asteroid asteroid8 = new Asteroid(asteroidShape, new Point(400, 380), 
+				asteroidDirection);
 		
 		asteroidArray = new Asteroid[] {asteroid1, asteroid2, asteroid3, 
 				asteroid4, asteroid5, asteroid6, asteroid7, asteroid8}; 
 		
 		//Initializes green point objects
 		Point[] pointElementShape = {
-				new Point(0, 0), new Point(0, -8), new Point(8, -8), new Point(8, 0)
+				new Point(0, 0), new Point(0, -8), new Point(8, -8), 
+				new Point(8, 0)
 		};
-		pointElement = new PointElement(pointElementShape, new Point(random.nextInt(600) + 100, random.nextInt(400) + 100), 0); 
+		pointElement = new PointElement(pointElementShape, 
+				new Point(random.nextInt(600) + 100, random.nextInt(400) + 100),
+				0); 
 		
 		//Initializes Booster objects
 		Point[] boosterShape = {
-				new Point(-5, 0), new Point(5, 0), new Point(0, -10), new Point(-5, 0)
+				new Point(-5, 0), new Point(5, 0), new Point(0, -10), 
+				new Point(-5, 0)
 		};
-		booster = new Ship(shipShape, new Point(360, 300), direction).new Boost(boosterShape, new Point(-5,5), direction, ship); 
+		booster = new Ship(shipShape, new Point(360, 300), direction).new 
+				Boost(boosterShape, new Point(-5,5), direction, ship);
+		
+		//Initializes Bullets
+		bullets = ship.getBullets();
 	}
 
 	public void paint(Graphics brush) {
-		checkEndGame(); 
 		brush.setColor(Color.black);
 		brush.fillRect(0, 0, width, height);
 
@@ -120,21 +135,41 @@ class YourGameName extends Game implements KeyListener {
 		for(int i = 0; i < asteroidArray.length; i++) {
 			asteroidArray[i].move(); 
 			asteroidArray[i].Paint(brush);
+			
 			if(ship.collides(asteroidArray[i])) {
 				counter--; 
 				ship.setPosition(360, 300); 
+				if(counter == 0) {
+					new Object() {
+						public void endGame() {
+							checkEndGame(); 
+						}
+					}.endGame();
+				}
+			}
+			
+			for (int y = bullets.size() - 1; y >= 0; y--) {
+				if (!ship.getBullets().isEmpty() && ship.getBullets().get(y).
+						collides(asteroidArray[i])) {
+					asteroidArray[i].setStartPoint();
+					score++; 
+					bullets.remove(y);
+				}
+
 			}
 		}
 	}
 
 	public static void main(String[] args) {
-		YourGameName a = new YourGameName();
+		AsteroidShooter a = new AsteroidShooter();
 		a.repaint();
 	}
 
 	public void checkEndGame() {
 		if(counter == 0) {
-			JOptionPane.showMessageDialog(this, "Game Over! You have no lives left. \n Score: " + score, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Game Over! You have no lives "
+					+ "left. \n Score: " + score, "Game Over", 
+					JOptionPane.INFORMATION_MESSAGE);
 	        System.exit(0); 
 		}
 	}
