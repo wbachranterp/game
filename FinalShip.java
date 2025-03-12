@@ -218,7 +218,12 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 			shoot = false;
 		}
 	}
-
+	/**
+	 *Responsible for creating and launching a new ShipGun object from the ship object.
+  	 *Retreives the current position of the ship and sets the ShipGun origin to the origin of the ship
+    	 *Handles construction of the ShipGun based on array of Points. Adds a ShipGun object to the bullets ArrayList
+      	 *to store each bullet that will be fired from the ship
+	*/
 	private void fireBullet() {
 		Point[] points = this.getPoints();
 		Point bulletOrigin = points[0];
@@ -230,11 +235,15 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 		shipGun = bullet;
 		bullets.add(bullet);
 	}
-	
+	/**
+	 *Returns ShipGun so the current ShipGun in the ArrayList can be accessed, specifically for checking collision.
+	*/
 	public ShipGun getShipGun() {
 		return shipGun;
 	}
-	
+	/**
+	 *Returns the entire ShipGun ArrayList so it can be iterated and the current bullet can be found
+	*/
 	public ArrayList<ShipGun> getBullets() {
 		return bullets;
 	}
@@ -243,27 +252,58 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 	public void keyTyped(KeyEvent e) {
 		
 	}
-	
+	/**
+	 *Setter for stepSize so the speed of the ship can be changed if its boosting
+	*/
 	public void setStepSize(int x) {
 		stepSize = x; 
 	}
-	
+	/**
+	 *Getter for the polygons x position so that the exact curent location on the canvas can be found
+  	 *Specifically useful for movement and collison checking
+	*/
 	public double getXPosition() {
 		return position.getX(); 
 	}
-	
+	/**
+	 *Getter for the polygons y position so that the exact curent location on the canvas can be found
+  	 *Specifically useful for movement and collison checking
+	*/
 	public double getYPosition() {
 		return position.getY(); 
 	}
 	
-	//SHIPGUN INNERCLASS
+	/**
+	 * Inner Class: ShipGun
+	 *
+	 * Description: Represents the bullets that shoot out of the ship. Useful as an inner class
+  	 * because it the bullets follow the movement and rotation of the ship and originate from the ship object
+    	 * Contains a constructor for the bullets themself, a paint method to draw the bullets on the canvas, a move method
+      	 * to shoot the bullets across the screen, and a outOfBounds method so that bullets are removed once they leave the
+	 * screen to boost overall performance
+  	 *
+	 * Usage: ShipGun's are instantiated in the fireBullet() method of the Ship class where they
+  	 * are then stored for shooting from the ship.
+	 */
 	protected class ShipGun extends Polygon {
 		private int bulletSpeed = 20;
 
+		/**
+		 *Constructs a ShipGun object with a shape, position, and rotation
+		 *
+		 *@param inShape The array of points representing the shape of the ShipGun object
+		 *@param inPosition The starting position of the ShipGun object
+		 *@param inRotation The rotation of the ShipGun object
+		 */
 		public ShipGun(Point[] inShape, Point inPosition, double inRotation) {
 			super(inShape, inPosition, inRotation);
 		}
-
+		/**
+		 * Paints the ShipGun objects onto the canvas of the game,
+		 * the ShipGun's will be white
+	
+		 *@param brush The Graphics object that paints the asteroid
+		 */
 		void Paint(Graphics brush) {
 			Point[] getPoints = this.getPoints();
 
@@ -282,7 +322,9 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 
 		}
 			
-			
+		/**
+		 *Moves the bullets across the screen based on the bulletspeed integer * cos or sin.
+		 */
 		void move() {
 			position.setX(position.getX() - bulletSpeed 
 					* Math.cos(Math.toRadians(rotation)));
@@ -290,7 +332,10 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 					* Math.sin(Math.toRadians(rotation)));
 
 		}
-
+		/**
+		 * Checks if a ShipGun object has gone outside the borders of the game and records it in
+   	 	 * a boolean, useful for removing ShipGun objects that left the screen.
+		 */
 		boolean outOfBounds() {
 			return position.getX() < -10 || position.getX() > 810 
 					|| position.getY() < -10 || position.getY() > 610;
@@ -298,7 +343,19 @@ public class Ship extends Polygon implements KeyListener, GameElements {
 
 	}
 	
-	//BOOST INNERCLASS
+	/**
+	 * Inner Class: Boost
+	 *
+	 * Description: Represents the ship's temporay speed boost abillity. It benefits from being an innerclass because
+  	 * it depends on the ships current location as well as it's movement. It has access to the Ship's stepsize
+    	 * directly because it is an innerclass, so it can easily speed up the ship while the boost key is held
+      	 * and then slow it down back to normal speed once the key is released. The ship has a constructor extended from
+	 * polygon, a paint method to paint the booster on the canvas, keyboard responsiveness methods, and a boost method
+  	 * that actually boosts the ship.
+  	 *
+	 * Usage: ShipGun's are instantiated in the fireBullet() method of the Ship class where they
+  	 * are then stored for shooting from the ship.
+	 */
 	public class Boost extends Polygon implements KeyListener {
 		
 		private Point[] boostPoints; 
