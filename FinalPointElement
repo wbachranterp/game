@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-public class PointElement extends Polygon {
+public class PointElement extends Polygon implements GameElements {
 
 	private Random random; 
 	
@@ -29,7 +29,7 @@ public class PointElement extends Polygon {
 		brush.fillPolygon(xArray, yArray, getPoints.length);
 	}
 	
-	public void setRandPosition() {
+	public void move() {
 		position.setX(random.nextInt(600) + 100);
 		position.setY(random.nextInt(400) + 100);
 	}
