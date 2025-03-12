@@ -178,7 +178,11 @@ class AsteroidShooter extends Game implements KeyListener {
 				if(counter == 0) {
 					new Object() {
 						public void endGame() {
-							checkEndGame(); 
+							JOptionPane.showMessageDialog(AsteroidShooter.this, 
+									"Game Over! You have no lives "
+									+ "left. \n Score: " + score, "Game Over", 
+									JOptionPane.INFORMATION_MESSAGE);
+					        	System.exit(0); 
 						}
 					}.endGame();
 				}
@@ -200,19 +204,7 @@ class AsteroidShooter extends Game implements KeyListener {
 		AsteroidShooter a = new AsteroidShooter();
 		a.repaint();
 	}
-	/**
-	 * Checks if the counter int is at 0, if the counter is at 0, it exits the game and displays a game over screen
-  	 * if the counter is not at 0 the game continues.
-	 */
-
-	public void checkEndGame() {
-		if(counter == 0) {
-			JOptionPane.showMessageDialog(this, "Game Over! You have no lives "
-					+ "left. \n Score: " + score, "Game Over", 
-					JOptionPane.INFORMATION_MESSAGE);
-	        System.exit(0); 
-		}
-	}
+	
 	/**
 	 * KeyPressed method implemented from KeyListener, checks for keyboad key pressed
   	 * which is used in other methods.
