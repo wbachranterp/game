@@ -10,7 +10,11 @@ import javax.swing.JOptionPane;
 
 /**
  * CLASS: AsteroidShooter
- * DESCRIPTION: Extending Game, AsteroidShooter is all in the paint method. AsteroidShooter
+ * DESCRIPTION: Extending Game, AsteroidShooter is all in the paint method. AsteroidShooter() is the main
+ * construction method where all of the objects in the game are instantiated. It also has a paint method which paints the
+ * objects onto the canvas that were constructed, and it has a checkendgame method which checks if the counter has hit 0 which
+ * will then lead to the game ending
+ * USAGE: Intialize it in the main method followed by repaint for the game to run.
 */
 
 class AsteroidShooter extends Game implements KeyListener {
