@@ -4,12 +4,30 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
+/**
+* The Asteroid class represents the asteroid objects that will appear on the screen and act as obstacles for this ship
+* Includes a Paint method that handles how the asteroid appears on the screen, a move method that controls its
+* movement, and a setStartPoint method that assigns random starting positions to the asteroids on the borders
+* of the game canvas.
+/*
+
+
+
 public class Asteroid extends Polygon implements GameElements {
 	
 	private Point[] asteroidPoints; 
 	private final int stepSize = 2; 
 	private Random random; 
-	
+
+
+	/**
+	 *Constructs an Asteroid object with a shape, position, and rotation
+	 *
+	 *@param inShape The array of points representing the shape of the asteroid
+	 *@param inPosition The starting position of the asteroid object
+	 *@param inRotation The rotation of the asteroid object
+	 */
+
 	public Asteroid(Point[] inShape, Point inPosition, double inRotation) {
 		super(inShape, inPosition, inRotation); 
 		this.asteroidPoints = inShape; 
