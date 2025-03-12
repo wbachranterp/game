@@ -12,9 +12,20 @@ import java.util.Random;
 /*
 
 public class Asteroid extends Polygon implements GameElements {
-	
+
+	/**
+	 * An array of Points that defines the asteroids shape
+	 */
 	private Point[] asteroidPoints; 
+
+	/**
+	 * Represents the speed of the asteroids across the screen
+	 */
 	private final int stepSize = 2; 
+
+	/**
+	 * Random object for generating random positions for asteroids
+	 */
 	private Random random; 
 
 
