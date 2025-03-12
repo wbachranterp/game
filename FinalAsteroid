@@ -11,8 +11,6 @@ import java.util.Random;
 * of the game canvas.
 /*
 
-
-
 public class Asteroid extends Polygon implements GameElements {
 	
 	private Point[] asteroidPoints; 
@@ -33,7 +31,14 @@ public class Asteroid extends Polygon implements GameElements {
 		this.asteroidPoints = inShape; 
 		random = new Random(); 
 	}
-	
+
+	/**
+	 * Paints the asteroid objects onto the canvas of the game,
+	 * the asteroids will be colored gray
+
+	 *@param brush The Graphics object that paints the asteroid
+	 */
+
 	public void Paint(Graphics brush) {
 		Point[] getPoints = this.getPoints();
 		
@@ -49,6 +54,11 @@ public class Asteroid extends Polygon implements GameElements {
 		brush.drawPolygon(xArray, yArray, getPoints.length);
 		brush.fillPolygon(xArray, yArray, getPoints.length);
 	}
+
+	/**
+	 * Moves the asteroids around the canvas based on a stepSize increment multiplied by sin or cos.
+	 * Handles out of bounds where asteroids reset to starting positions if they exceed the canvas.
+	 */
 	
 	public void move() {
 		if(position.getX() <= 0 || position.getX() >= 800 || 
@@ -62,7 +72,12 @@ public class Asteroid extends Polygon implements GameElements {
 					* Math.sin(Math.toRadians(rotation)));
 		}
 	}
-	
+
+	/**
+	 * Sets the start point to a random position on the bounds of the canvas.
+	 * Iterates through 4 different starting x locations with random y positions in each.
+	 */
+
 	public void setStartPoint() {
 		int counter = random.nextInt(4); 
 		
