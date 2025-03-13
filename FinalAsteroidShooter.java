@@ -154,7 +154,7 @@ class AsteroidShooter extends Game implements KeyListener {
 		pointElement.Paint(brush);
 		
 		if(ship.collides(pointElement)) {
-			pointElement.setRandPosition(); 
+			pointElement.move(); 
 			score+= 5; 
 		}
 		
