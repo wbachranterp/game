@@ -187,13 +187,12 @@ class AsteroidShooter extends Game implements KeyListener {
 					}.endGame();
 				}
 			}
-					
+			//lambda checking if bullets go off the screen and removing them from the array list if they do.		
 			bullets.removeIf(bullet -> {
 		    	boolean collided = false;
 		    	for (Asteroid asteroid : asteroidArray) {
 			        if (bullet.collides(asteroid)) {
 			            asteroid.setStartPoint();
-			            score++;
 			            collided = true;
 			            break; 
 			        }
