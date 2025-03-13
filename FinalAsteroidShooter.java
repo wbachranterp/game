@@ -187,16 +187,19 @@ class AsteroidShooter extends Game implements KeyListener {
 					}.endGame();
 				}
 			}
-			
-			for (int y = bullets.size() - 1; y >= 0; y--) {
-				if (!ship.getBullets().isEmpty() && ship.getBullets().get(y).
-						collides(asteroidArray[i])) {
-					asteroidArray[i].setStartPoint();
-					score++; 
-					bullets.remove(y);
-				}
-
-			}
+					
+			bullets.removeIf(bullet -> {
+		    	boolean collided = false;
+		    	for (Asteroid asteroid : asteroidArray) {
+			        if (bullet.collides(asteroid)) {
+			            asteroid.setStartPoint();
+			            score++;
+			            collided = true;
+			            break; 
+			        }
+				   }
+				    return collided; 
+		});
 		}
 	}
 
